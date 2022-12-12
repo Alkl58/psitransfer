@@ -22,25 +22,34 @@
         strong {{ $root.lang.files }}
         div.pull-right.btn-group.btn-download-archive(v-if="downloadsAvailable")
           a.btn.btn-sm.btn-default(@click="downloadAll('zip')", :title="$root.lang.zipDownload")
-            icon.fa-fw(name="download")
+            icon.fa-fw(name="file-archive")
             |  zip
           a.btn.btn-sm.btn-default(@click="downloadAll('tar.gz')", :title="$root.lang.tarGzDownload")
-            icon.fa-fw(name="download")
+            icon.fa-fw(name="file-archive")
             |  tar.gz
       .panel-body
+        a(v-if="config.showGallery === true", style="text-align: center; display: block;")
+          i(v-for='file in files', style='cursor: pointer', @click.prevent.stop="preview=file")
+            img.gallery-image(:src="file.url + '.thumb'", v-if="file.previewType === 'image'")
         table.table.table-hover.table-striped.files
           tbody
             tr(v-for='file in files', style='cursor: pointer', @click='download(file)')
-              td.file-icon
-                file-icon(:file='file')
-              td
+              td.file-icon(v-if="config.showGallery === false || (config.showGallery === true && file.previewType !== 'image')")
+                img(:src="file.url + '.thumb'", style="max-width: 100%; height:auto", v-if="file.previewType === 'image' && config.showThumbnails === true")
+                file-icon(:file='file', v-else)
+              td(v-if="config.showGallery === false || (config.showGallery === true && file.previewType !== 'image')")
                 div.pull-right.btn-group
                   clipboard.btn.btn-sm.btn-default(:value='baseURI + file.url', @change='copied(file, $event)', :title='$root.lang.copyToClipboard')
                     a
                       icon(name="copy")
-                  a.btn.btn-sm.btn-default(:title="$root.lang.preview", @click.prevent.stop="preview=file", v-if="file.previewType")
-                    icon(name="eye")
+                  span.btn.btn-sm.btn-default(:title="$root.lang.preview", @click.prevent.stop="preview=file", v-if="file.previewType")
+                    a
+                      icon(name="eye")
+                  span.btn.btn-sm.btn-default(:title="$root.lang.download")
+                    a
+                      icon(name="download")
                 i.pull-right.fa.fa-check.text-success.downloaded(v-show='file.downloaded')
+                  icon(name="check")
                 p
                   strong {{ file.metadata.name }}
                   small.file-size(v-if="isFinite(file.size)") ({{ humanFileSize(file.size) }})
@@ -66,6 +75,7 @@
   import 'vue-awesome/icons/download';
   import 'vue-awesome/icons/key';
   import 'vue-awesome/icons/eye';
+  import 'vue-awesome/icons/file-archive';
 
   function getPreviewType(file, maxSize) {
     if(!file || !file.metadata) return false;

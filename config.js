@@ -45,6 +45,10 @@ const config = {
   "maxAge": 3600 * 24 * 75, // 75 days
   // maximum file-size for previews in byte
   "maxPreviewSize": Math.pow(2, 20) * 2, // 2MB
+  // renders thumbnails on the fly, set to true to enable
+  "showThumbnails": false,
+  // show gallery view when bucket has images, set to true to enable
+  "showGallery": false,
   "mailTemplate": 'mailto:?subject=File Transfer&body=You can download the files here: %%URL%%',
   // see https://github.com/expressjs/morgan
   // set to false to disable logging
