@@ -160,6 +160,22 @@ h1 .fa-icon {
   margin-left: 15px;
 }
 
+/* Gallery Image */
+img.gallery-image {
+  height: 160px;
+  margin-right: 5px; 
+  margin-left: 5px;
+  margin-bottom: 10px; 
+  filter: drop-shadow(0px 0px 5px black); 
+  border-radius: 5px;
+  transition: transform .2s;
+  z-index: 0;
+  position: relative;
+}
+img.gallery-image:hover {
+  transform: scale(1.2);
+  z-index: 1;
+}
 
 /* Dark Mode */
 @media (prefers-color-scheme: dark) {
