@@ -77,12 +77,13 @@
   import 'vue-awesome/icons/eye';
   import 'vue-awesome/icons/file-archive';
 
-  function getPreviewType(file, maxSize) {
+  function getPreviewType(file, maxSize, previewVideos) {
     if(!file || !file.metadata) return false;
     if(file.metadata.retention === 'one-time') return false;
     // no preview for files size > 2MB
     if(file.size > maxSize) return false;
     if(file.metadata.type && file.metadata.type.match(/^image\/.*/)) return 'image';
+    if(file.metadata.type && file.metadata.type.match(/^video\/(webm|mp4)/) && previewVideos === 1) return 'video';
     else if(file.metadata.type && file.metadata.type.match(/(text\/|xml|json|javascript|x-sh)/)
       || file.metadata.name && file.metadata.name
         .match(/\.(jsx|vue|sh|pug|less|scss|sass|c|h|conf|log|bat|cmd|lua|class|java|py|php|yml|sql|md)$/)) {
@@ -188,7 +189,7 @@
               this.files = data.items.map(f => {
                 return Object.assign(f, {
                   downloaded: false,
-                  previewType: getPreviewType(f, this.config.maxPreviewSize)
+                  previewType: getPreviewType(f, this.config.maxPreviewSize, this.config.previewVideos)
                 });
               });
               this.loading = false;

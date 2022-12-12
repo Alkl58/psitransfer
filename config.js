@@ -45,6 +45,8 @@ const config = {
   "maxAge": 3600 * 24 * 75, // 75 days
   // maximum file-size for previews in byte
   "maxPreviewSize": Math.pow(2, 20) * 2, // 2MB
+  // preview videos, set to 1 to enable (experimental! - connection seems to not be closed afterwards)
+  "previewVideos": 0,
   // renders thumbnails on the fly, set to 1 to enable
   "showThumbnails": 0,
   // show gallery view when bucket has images, set to 1 to enable
