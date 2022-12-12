@@ -370,4 +370,8 @@ img.gallery-image:hover {
   .text-danger {
     color: #ff4c49;
   }
+
+  .drag #dropHelper:before {
+    filter: invert();
+  }
 }
