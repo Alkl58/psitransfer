@@ -14,7 +14,7 @@
             icon(name="undo-alt", flip="vertical")
     div(slot="body")
       div(v-if="current.previewType === 'image'", style="text-align:center")
-        img(:src="current.url", style="max-width: 100%; height:auto")
+        img(:src="current.url", style="max-width: 100%; height:auto; max-height: 85vh;")
       div(v-if="current.previewType === 'text'")
         pre(:style="{'white-space':lineWrap?'pre-wrap':'pre'}") {{ previewText }}
       p(v-if="current.previewType === false", style="text-align:center")
