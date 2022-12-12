@@ -28,16 +28,16 @@
             icon.fa-fw(name="file-archive")
             |  tar.gz
       .panel-body
-        a(v-if="config.showGallery === true", style="text-align: center; display: block;")
+        a(v-if="config.showGallery === 1", style="text-align: center; display: block;")
           i(v-for='file in files', style='cursor: pointer', @click.prevent.stop="preview=file")
             img.gallery-image(:src="file.url + '.thumb'", v-if="file.previewType === 'image'")
         table.table.table-hover.table-striped.files
           tbody
             tr(v-for='file in files', style='cursor: pointer', @click='download(file)')
-              td.file-icon(v-if="config.showGallery === false || (config.showGallery === true && file.previewType !== 'image')")
-                img(:src="file.url + '.thumb'", style="max-width: 100%; height:auto", v-if="file.previewType === 'image' && config.showThumbnails === true")
+              td.file-icon(v-if="config.showGallery === 0 || (config.showGallery === 1 && file.previewType !== 'image')")
+                img(:src="file.url + '.thumb'", style="max-width: 100%; height:auto", v-if="file.previewType === 'image' && config.showThumbnails === 1")
                 file-icon(:file='file', v-else)
-              td(v-if="config.showGallery === false || (config.showGallery === true && file.previewType !== 'image')")
+              td(v-if="config.showGallery === 0 || (config.showGallery === 1 && file.previewType !== 'image')")
                 div.pull-right.btn-group
                   clipboard.btn.btn-sm.btn-default(:value='baseURI + file.url', @change='copied(file, $event)', :title='$root.lang.copyToClipboard')
                     a
