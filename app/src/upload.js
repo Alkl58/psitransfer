@@ -14,6 +14,8 @@ new Vue({
     baseURI: document.head.getElementsByTagName('base')[0].href.replace(/\/$/),
     configFetched: false,
     lang: {},
+    maxFileSize: false,
+    maxBucketSize: false,
   },
   store,
   render: h => h(Upload),
@@ -29,6 +31,8 @@ new Vue({
     // Fetch config
     try {
       await this.$store.dispatch('config/fetch');
+      this.maxFileSize = this.$store.state.config.maxFileSize;
+      this.maxBucketSize = this.$store.state.config.maxBucketSize;
     } catch(e) {
       if(e.code !== 'PWDREQ') {
         console.error(e);

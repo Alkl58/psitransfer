@@ -66,7 +66,7 @@ const config = {
   "defaultLanguage": "en",
   // Limit upload size
   "maxFileSize": null, // Math.pow(2, 30) * 2, // 2GB
-  "maxBucketSize": null, // Math.pow(2, 30) * 2, // 10GB
+  "maxBucketSize": null, // Math.pow(2, 30) * 10, // 10GB
   "plugins": ['file-downloaded-webhook', 'file-uploaded-webhook'],
 };
 
