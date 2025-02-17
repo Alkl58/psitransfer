@@ -22,6 +22,25 @@ export default {
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', 'config.json');
+
+        // Allow using query string to set upload pass
+        const params = new URLSearchParams(window.location.search);
+        const querystringUploadPass = params.get("upload_key");
+
+        if (querystringUploadPass) {
+          state.uploadPass = querystringUploadPass;
+          params.delete("upload_key"); // Remove the parameter
+
+          // Build the new URL
+          const newUrl =
+              params.toString().length > 0
+                  ? window.location.pathname + "?" + params.toString()
+                  : window.location.pathname; // Remove "?" if no other params exist
+
+          // Update the URL without reloading
+          window.history.replaceState(null, "", newUrl);
+        }
+
         state.uploadPass && xhr.setRequestHeader('x-passwd', state.uploadPass);
         xhr.onload = () => {
           if(xhr.status === 200) {
