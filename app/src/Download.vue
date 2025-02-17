@@ -48,6 +48,7 @@
                   span.btn.btn-sm.btn-default(:title="$root.lang.download")
                     a
                       icon(name="download")
+                      strong(v-if="!isNaN(file.metadata.downloadCount)" style="padding-left:5px;") {{file.metadata.downloadCount}}
                 i.pull-right.fa.fa-check.text-success.downloaded(v-show='file.downloaded')
                   icon(name="check")
                 p
@@ -135,6 +136,7 @@
         aEl.click();
         document.body.removeChild(aEl);
         file.downloaded = true;
+        file.metadata.downloadCount = isNaN(file.metadata.downloadCount) ? 1 : ++file.metadata.downloadCount;
       },
 
       downloadAll(format) {
@@ -148,6 +150,7 @@
 
         this.files.forEach(f => {
           f.downloaded = true;
+          f.metadata.downloadCount = isNaN(f.metadata.downloadCount) ? 1 : ++f.metadata.downloadCount;
         });
       },
 

@@ -25,6 +25,7 @@
             th SID
             th Created
             th Downloaded
+            th Download Count
             th Expire
             th Size
             th Actions
@@ -38,6 +39,7 @@
               td
                 template(v-if="sum[sid].lastDownload") {{ sum[sid].lastDownload | date}}
                 template(v-else="") -
+              td {{ sum[sid].downloadCountPre }}  {{ sum[sid].downloadCount }} 
               td
                 template(v-if="typeof sum[sid].firstExpire === 'number'") {{ sum[sid].firstExpire | date }}
                 template(v-else)  {{ sum[sid].firstExpire }}
@@ -56,6 +58,7 @@
                 td
                   template(v-if="file.metadata.lastDownload") {{ +file.metadata.lastDownload | date}}
                   template(v-else="") -
+                td {{ file.metadata.downloadCount }}     
                 td
                   template(v-if="typeof file.expireDate === 'number'") {{ file.expireDate | date }}
                   template(v-else) {{ file.expireDate }}
@@ -65,7 +68,7 @@
                     icon(name="trash")
         tfoot
           tr
-            td(colspan="3")
+            td(colspan="4")
             td.text-right(colspan="2") Sum: {{ humanFileSize(sizeSum) }}
             td
 
@@ -94,7 +97,9 @@
         error: '',
         passwordWrong: false,
         expand: false,
-        sizeSum: 0
+        sizeSum: 0,
+        downloadCount: 0,
+        downloadCountPre: "",
       }
     },
 
@@ -141,6 +146,12 @@
           };
           this.db[sid].forEach(file => {
             bucketSum.size += file.size;
+            if(bucketSum.downloadCount == undefined) {
+              bucketSum.downloadCount = isNaN(file.metadata.downloadCount) ? "-" : file.metadata.downloadCount;
+            } else if(bucketSum.downloadCount != file.metadata.downloadCount ) {
+              bucketSum.downloadCountPre =  bucketSum.downloadCount != 0 ? "~" : "";
+              bucketSum.downloadCount = bucketSum.downloadCount < file.metadata.downloadCount ? file.metadata.downloadCount : bucketSum.downloadCount; 
+            }
             if(file.metadata._password) {
               bucketSum.password = true;
             }
